@@ -1,7 +1,10 @@
+import { addTask } from "../lib/action";
+
 export default function AddTask() {
   return (
-    <form action="" className="mb-4 space-y-3">
+    <form action={addTask} className="mb-4 space-y-3">
       <input
+        name="text"
         type="text"
         className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:border-blue-400"
       />

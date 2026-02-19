@@ -38,8 +38,30 @@ export const addTask = async (prevState: State, formData: FormData) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ text: validatedFields.data.text }),
+    body: JSON.stringify({ text: validatedFields.data.text, updatedAt: new Date() }),
   }).catch((err) => console.log(err));
   revalidatePath("/app/components/TaskList");
   return { message: "登録が完了しました！" };
+};
+
+export const updateTask = async (id: string ,prevState: State, formData: FormData) => {
+  const validatedFields = TaskSchema.safeParse({
+    text: formData.get("text"),
+  });
+  if (!validatedFields.success) {
+    // バリデーションエラー時の処理
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      success: false,
+    };
+  }
+  await fetch(`http://localhost:3003/tasks/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ text: validatedFields.data.text, updatedAt: new Date() }),
+  }).catch((err) => console.log(err));
+  revalidatePath("/app/components/Task");
+  return { success: true };
 };

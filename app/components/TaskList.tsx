@@ -9,7 +9,7 @@ export default async function TaskList({tasks}:TaskTypeProps) {
   return (
     <ul className="space-y-3">
       {tasks.map((task) => (
-        <Task task={task} key={task.id} />
+        <Task task={task} key={task.updatedAt} />
       ))}
     </ul>
   );

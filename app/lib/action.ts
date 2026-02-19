@@ -16,22 +16,30 @@ const TaskSchema = z.object({
     .max(50, "50文字以内で入力してください"),
 });
 
-export const addTask = async (formData: FormData) => {
+export type State = {
+  errors?: {
+    text?: string[];
+  };
+  message?: string | null;
+};
+
+export const addTask = async (prevState: State, formData: FormData) => {
   const validatedFields = TaskSchema.safeParse({
     text: formData.get("text"),
   });
   if (!validatedFields.success) {
     // バリデーションエラー時の処理
-    console.log(validatedFields.error.issues.map((issue) => issue.message));
-    return;
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
   }
-  const { text } = validatedFields.data;
   await fetch("http://localhost:3003/tasks", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({ text: validatedFields.data.text }),
   }).catch((err) => console.log(err));
   revalidatePath("/app/components/TaskList");
+  return { message: "登録が完了しました！" };
 };

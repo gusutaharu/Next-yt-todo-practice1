@@ -17,6 +17,8 @@ const TaskSchema = z.object({
     .max(50, "50文字以内で入力してください"),
 });
 
+const NewTaskSchema = TaskSchema.omit({ id: true });
+
 export type State = {
   errors?: {
     text?: string[];
@@ -25,7 +27,7 @@ export type State = {
 };
 
 export const addTask = async (prevState: State, formData: FormData) => {
-  const validatedFields = TaskSchema.safeParse({
+  const validatedFields = NewTaskSchema.safeParse({
     text: formData.get("text"),
   });
   if (!validatedFields.success) {

@@ -15,8 +15,9 @@ interface TaskState extends State {
 export default function Task({ task }: TaskProps) {
   const [isEditing, setIsEditing] = useState(false);
   const initialState: TaskState = { message: null, errors: {}, success: false };
+  const updateTaskWithId = updateTask.bind(null, task.id);
   const [state, formAction, isPending] = useActionState(
-    updateTask.bind(null, task.id),
+    updateTaskWithId,
     initialState,
   );
   const handleEdit = () => {

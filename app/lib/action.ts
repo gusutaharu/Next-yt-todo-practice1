@@ -10,6 +10,7 @@ export const getAllTasks = async () => {
 };
 
 const TaskSchema = z.object({
+  id: z.string(),
   text: z
     .string()
     .min(1, "タイトルを入力してください")
@@ -46,6 +47,7 @@ export const addTask = async (prevState: State, formData: FormData) => {
 
 export const updateTask = async (id: string ,prevState: State, formData: FormData) => {
   const validatedFields = TaskSchema.safeParse({
+    id: id,
     text: formData.get("text"),
   });
   if (!validatedFields.success) {

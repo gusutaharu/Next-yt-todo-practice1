@@ -3,6 +3,7 @@ import { TaskType } from "../lib/difinitions";
 import { useState } from "react";
 import { updateTask, State } from "../lib/action";
 import { useActionState } from "react";
+import { DeleteButton } from "./DeleteButton";
 
 interface TaskProps {
   task: TaskType;
@@ -62,7 +63,7 @@ export default function Task({ task }: TaskProps) {
           </div>
         </div>
       )}
-      <button className="text-red-500">delete</button>
+      <DeleteButton id={task.id} />
     </li>
   );
 }

@@ -69,3 +69,14 @@ export const updateTask = async (id: string ,prevState: State, formData: FormDat
   revalidatePath("/app/components/Task");
   return { success: true };
 };
+
+export const deleteTask = async (id: string) => {
+  await fetch(`http://localhost:3003/tasks/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  revalidatePath("/app/components/Task");
+  return
+};

@@ -21,7 +21,7 @@ export default function Task({ task }: TaskProps) {
     initialState,
   );
   const handleEdit = () => {
-    setIsEditing((isEditing) => !isEditing);
+    setIsEditing(true);
   };
 
   const isCurrentlyEditing = isEditing && !state?.success;
